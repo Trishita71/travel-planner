@@ -1,0 +1,183 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class start { ///Base class(admin panel)
+private:
+    int n, mem, budget;
+    string add;
+public:
+    int info() {
+        cout << "Choose Your Preferable Place:" << endl;
+        cout << "1. Khagrachhari" << endl;                     ///2. Shrimongol 3.Sajek valley 4.
+        cin >> n;
+        cout << "Enter Number of Members: ";
+        cin >> mem;
+        cout << "Enter Your Address: ";
+        getline(cin, add);
+        cout << "Enter Your Travel Budget: ";
+        cin >> budget;
+        return n;
+    }
+    int getMem() const { return mem;} // Add a getter for mem
+    int getBudget() const { return budget; }  // Add a getter for budget
+    void login() {                                /// creating this function as void but later on it'll convert as string
+        string name, email;
+        cout << "Enter your name to start planning: ";
+        getline(cin, name);
+        cout << "Enter Your Email Address: ";
+        getline(cin, email);
+        cout << "Welcome " << name << ", Let's start planning your Next Adventure!" << endl;
+       // return name;
+    }
+};
+class khagrachari : virtual protected start{
+protected:
+    int chose_acom;
+public:
+    int khagMem(){return getMem();} // Adding getter for derived class of khagrachari
+    int khagbudget(){return getBudget();}
+    bool getAcom(){
+        cout<< "Staying More Than One Days!\nChose 'y' or 'n': ";
+        char ch;
+        cin>>ch;
+        if(ch=='y'){
+            cout<< "Select Accommodation Option:"<<endl;
+            cout<< "1.Resort\n2.Hotel"<<endl;
+            cin>>chose_acom;
+            return true;
+        }
+        else {
+           return false;
+        }
+    }
+    int get_option(){return chose_acom;}
+};
+class BUS : virtual public khagrachari { ///initially i'm thinking of making only this BUS class for each spot..
+protected:
+   float bus_cost;
+public:
+    void set_bus() {
+        cout << "Options for Transportation (With Prices):" << endl;
+        cout << left << setw(15) << "BUS LIST" << setw(15) << "Price Range" << endl;
+        cout << left << setw(15) << "Normal Bus" << setw(15) << "750" << endl;
+        cout << left << setw(15) << "Ac-Bus" << setw(15) << "1500" << endl;
+        int t;
+        cout << "Choose (1/2): ";
+        cin >> t;
+        if (t == 1) {
+            bus_cost = khagMem() * 750;
+        }
+        if (t == 2) {
+            bus_cost = khagMem()* 1500;
+        }
+        bus_cost= bus_cost+bus_cost*0.05;///adding vat
+        cout << "Transportation cost: $" << bus_cost << endl;
+    }
+    int getcost(){return bus_cost;}
+};
+class Accommodation{  ///There will be one class for accommodation and different member function for each spot
+public:
+    khagAcom(){cout<<"Prices Often Fluctuate With The Seasons.\n" ;}
+    void khagResort(){
+        cout<< "Escape to a paradise where nature meets luxury, and your dreams unwind.\n";/// if you want cut this line
+        cout<< "Heres The Options For Resort in Khagrachhari"<<endl;
+        cout<< "1! Borno Resort(Per Night 3K)\n2! Bornochhaya EcoResort(Per Night 2.5K)\n3! Tareng Chumui Resort(Per Night 2.5K)\n";
+        int c;
+        cin>>c;
+    }
+    void khagHotel(){
+        cout<< "Unfortunately, There are no luxury hotel in Khagracharri\n";
+        cout<< "Heres The Options For Resort in Khagrachhari"<<endl;
+        cout<< "1! Hotel Aronnyo Bilas(BDT 2K)\n2! Hotel khagrachari guest house(BDT 1.5K)\n3! Hotel Ecocchori inn\n4! Hotel Hill Paradise\n";
+        int c;
+        cin>>c;
+    }
+
+};
+class Food {   ///There will be one class for food and different member function for each spot
+public:
+    void khagFood() {
+        cout << "Food Packages:\n";
+        cout << "1. Standard Package - 2k\n";
+        cout << "2. Deluxe Package - 5k\n";
+        cout << "3. Premium Package - 10k\n";
+        int choice;
+        cout << "Choose a food package (1/2/3): ";
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                cout<< "Try the local street food for a taste of the culture!"<<endl;
+                break;
+            case 2:
+                cout<<"Visit the 'System' restaurant for a delightful dining experience."<<endl;
+                break;
+            case 3:
+                cout<< "Explore the 'BambooShoot Eco Food Court' for an unforgettable feast."<<endl;
+                break;
+            default:
+                cout << "Invalid choice. No food package selected." << std::endl;
+                break;
+        }
+    }
+};
+class activities{ ///There will be one class for activitiy and different member function for each spot
+public:
+    void khagActivity(){
+        cout << "Available Activities:\n";
+        cout << "1. Hiking\n";
+        cout << "2. Sightseeing\n";
+        cout << "3. Water Acitivity\n";
+        int choice;
+        cout << "Choose an activity (1/2/3): ";
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                cout<< "For Hiking:\n1. Alutila Cave\n2. Mayung Kopal\n";
+                break;
+            case 2:
+               cout<< "For Sightseeing\n1. Horticulture Heritage Park\n2. Palashpur\n3. \"Matai Pukhuri\" Devata Pukur)\n";
+                break;
+            case 3:
+                cout<< "For Water-Activity:\n1. Tuari Mairang(Waterfall)\n2. Hajachora Waterfall\n3. Risang Waterfall\n";
+                break;
+            default:
+                cout << "Invalid choice. No activity selected." << std::endl;
+                break;
+        }
+    }
+};
+class Total_cost:virtual protected start {
+public:
+    int t_cost;
+
+    void calculate_total_cost(int bus_cost) {
+        t_cost = bus_cost; // Start with transportation cost
+        int budget = getBudget(); // Get budget from start
+        if (t_cost > budget) {
+            cout << "Warning: Transportation cost exceeds the budget!" << endl;
+        }
+    }
+};
+int main() {
+    cout << "\t**Travel Planners**" << endl;
+    start A;
+    A.login();
+    int n = A.info();
+    if (n == 1) {
+        khagrachari khag; // Create a khagrachari object
+        BUS bus;
+        bus.set_bus();
+        if(khag.getAcom()){
+            Accommodation Acom;//creating object for Acommadation
+            if(khag.get_option()==1){Acom.khagResort();}
+            else{Acom.khagHotel();}
+        }
+        Food f;//creating object for food
+        activities act;//creating object for activity
+        Total_cost tc;
+        tc.calculate_total_cost(bus.getcost());///
+        cout << "Total cost: $" << tc.t_cost << endl;
+    }
+
+    return 0;
+}
